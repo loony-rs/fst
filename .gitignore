@@ -1,0 +1,15 @@
+.*.swp
+tags
+target
+*.lock
+tmp
+*.csv
+*.fst
+*-got
+*.csv.idx
+words
+98m*
+dict
+test
+months
+logs
