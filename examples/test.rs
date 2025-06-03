@@ -3,7 +3,26 @@ use fst::automaton::Levenshtein;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   // A convenient way to create sets in memory.
-  let keys = vec!["abcde", "abcdf", "abcdg", "abcdh"];
+  let keys = vec![
+    "abc",
+    "cde",
+    "efg",
+    "ghi"
+  ];
+  // let keys = vec![
+  //   "april",
+  //   "august",
+  //   "december",
+  //   "february", 
+  //   "january", 
+  //   "july",
+  //   "june",
+  //   "march", 
+  //   "may",
+  //   "november",
+  //   "october",
+  //   "september",
+  //   ];
   let set = Set::from_iter(keys)?;
   println!("Set: {set:?}");
   // Build our fuzzy query.
