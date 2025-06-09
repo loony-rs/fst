@@ -1,3 +1,4 @@
+///
 pub const COMMON_INPUTS: [u8; 256] = [
     84,  // '\x00'
     85,  // '\x01'
@@ -257,6 +258,7 @@ pub const COMMON_INPUTS: [u8; 256] = [
     255, // 'ÿ'
 ];
 
+///
 pub const COMMON_INPUTS_INV: [u8; 256] = [
     b't', b'e', b'/', b'o', b'a', b's', b'r', b'i', b'p', b'c', b'n', b'w',
     b'.', b'h', b'l', b'm', b'-', b'd', b'u', b'0', b'1', b'2', b'g', b'=',

@@ -256,7 +256,7 @@ impl<W: io::Write> Builder<W> {
         self.len += 1;
         self.compile_from(prefix_len)?;
         self.unfinished.add_suffix(&bs[prefix_len..], out);
-        println!("{:#?}", self.unfinished);
+        // println!("{:#?}", self.unfinished);
         Ok(())
     }
 

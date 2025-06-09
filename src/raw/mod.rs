@@ -35,7 +35,8 @@ pub use crate::raw::ops::{
 };
 
 mod build;
-mod common_inputs;
+///
+pub mod common_inputs;
 mod counting_writer;
 mod crc32;
 mod crc32_table;

@@ -255,14 +255,11 @@ impl<'f> Node<'f> {
         {
             return Ok(());
         } else if node.trans.len() != 1 || node.is_final {
-            println!("StateAnyTrans, {node:?}");
             StateAnyTrans::compile(wtr, addr, node)
         } else {
             if node.trans[0].addr == last_addr && node.trans[0].out.is_zero() {
-                println!("StateOneTransNext {node:?}");
                 StateOneTransNext::compile(wtr, addr, node.trans[0].inp)
             } else {
-                println!("StateOneTrans {node:?}");
                 StateOneTrans::compile(wtr, addr, node.trans[0])
             }
         }
@@ -385,7 +382,9 @@ impl StateOneTrans {
         let mut pack_sizes = PackSizes::new();
         pack_sizes.set_output_pack_size(output_pack_size);
         pack_sizes.set_transition_pack_size(trans_pack_size);
-        wtr.write_all(&[pack_sizes.encode()])?;
+        let x = [pack_sizes.encode()];
+        println!("pack_sizes: {x:?}");
+        wtr.write_all(&x)?;
 
         let mut state = StateOneTrans::new();
         state.set_common_input(trans.inp);
@@ -403,7 +402,10 @@ impl StateOneTrans {
 
     #[inline]
     fn set_common_input(&mut self, input: u8) {
-        self.0 = (self.0 & 0b10_000000) | common_idx(input, 0b111111);
+        // self.0 = (self.0 & 0b10_000000) | common_idx(input, 0b111111);
+        let x = (self.0 & 0b10_000000) | common_idx(input, 0b111111);
+        println!("common_input: {input} {x}");
+        self.0 = x;
     }
 
     #[inline]
@@ -807,13 +809,9 @@ impl<'f, 'n> Iterator for Transitions<'f, 'n> {
 /// Nevertheless, the *caller* may have a priori knowledge that could be
 /// supplied to the builder manually, which could then be embedded in the FST.
 #[inline]
-fn common_idx(input: u8, max: u8) -> u8 {
+pub fn common_idx(input: u8, max: u8) -> u8 {
     let val = COMMON_INPUTS[input as usize] as u32 + 1;
-    println!("common_idx1: {input} {val}");
     let val = (val % 256) as u8;
-    println!("common_idx2: {val}");
-    let x = common_input(val);
-    println!("common_input: {x:?}");
     if val > max {
         0
     } else {
@@ -824,7 +822,7 @@ fn common_idx(input: u8, max: u8) -> u8 {
 /// common_input translates a common input index stored in a serialized FST
 /// to the corresponding byte.
 #[inline]
-fn common_input(idx: u8) -> Option<u8> {
+pub fn common_input(idx: u8) -> Option<u8> {
     if idx == 0 {
         None
     } else {
